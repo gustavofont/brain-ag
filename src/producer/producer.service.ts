@@ -1,21 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { UpdateProducerDto } from './dto/update-producer.dto';
-import { InjectModel } from '@nestjs/sequelize';
 import Producer from './entities/producer.entity';
 
 @Injectable()
 export class ProducerService {
-  constructor(@InjectModel(Producer) private producerEntity: typeof Producer) {}
+  constructor(
+    @Inject('PRODUCER_REPOSITORY') private producerRepository: typeof Producer,
+  ) {}
 
   async create(createProducerDto: CreateProducerDto) {
     try {
-      const res = await this.producerEntity.create({
-        name: 'tenste 1',
-        cpforcnpj: '22222222222',
+      const res = await this.producerRepository.create({
+        name: createProducerDto.name,
+        cpfOrCnpj: createProducerDto.cpfOrCnpj,
       });
 
-      console.log(res)
+      console.log(res);
 
       return `Producer ${createProducerDto.name} Creeated !!!`;
     } catch (error) {

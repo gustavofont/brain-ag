@@ -40,54 +40,54 @@ COMMENT ON SCHEMA public IS 'standard public schema';
 
 --
 -- TOC entry 222 (class 1255 OID 16465)
--- Name: atualizar_farm_updatedat(); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: atualizar_farm_updatedAt(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION public.atualizar_farm_updatedat() RETURNS trigger
+CREATE FUNCTION public.atualizar_farm_updatedAt() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-    NEW.updatedAt := CURRENT_TIMESTAMP;
+    NEW."updatedAt" := CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
 $$;
 
 
-ALTER FUNCTION public.atualizar_farm_updatedat() OWNER TO postgres;
+ALTER FUNCTION public.atualizar_farm_updatedAt() OWNER TO postgres;
 
 --
 -- TOC entry 223 (class 1255 OID 16479)
--- Name: atualizar_harvest_updatedat(); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: atualizar_harvest_updatedAt(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION public.atualizar_harvest_updatedat() RETURNS trigger
+CREATE FUNCTION public.atualizar_harvest_updatedAt() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-    NEW.updatedAt := CURRENT_TIMESTAMP;
+    NEW."updatedAt" := CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
 $$;
 
 
-ALTER FUNCTION public.atualizar_harvest_updatedat() OWNER TO postgres;
+ALTER FUNCTION public.atualizar_harvest_updatedAt() OWNER TO postgres;
 
 --
 -- TOC entry 221 (class 1255 OID 16449)
--- Name: atualizar_updatedat(); Type: FUNCTION; Schema: public; Owner: postgres
+-- Name: atualizar_updatedAt(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION public.atualizar_updatedat() RETURNS trigger
+CREATE FUNCTION public.atualizar_updatedAt() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
-    NEW.updatedAt := CURRENT_TIMESTAMP;
+    NEW."updatedAt" := CURRENT_TIMESTAMP;
     RETURN NEW;
 END;
 $$;
 
 
-ALTER FUNCTION public.atualizar_updatedat() OWNER TO postgres;
+ALTER FUNCTION public.atualizar_updatedAt() OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -107,8 +107,8 @@ CREATE TABLE public.farm (
     cultivablefield integer NOT NULL,
     vegetablefield integer NOT NULL,
     owner character varying(20) NOT NULL,
-    createdat timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updatedat timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    "createdAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -148,8 +148,8 @@ CREATE TABLE public.harvest (
     year integer NOT NULL,
     culture character varying(50) NOT NULL,
     farm integer NOT NULL,
-    createdat timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updatedat timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    "createdAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "updatedAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -161,10 +161,10 @@ ALTER TABLE public.harvest OWNER TO postgres;
 --
 
 CREATE TABLE public.producer (
-    cpforcnpj character varying(20) NOT NULL,
+    "cpfOrCnpj" character varying(20) NOT NULL,
     name text NOT NULL,
-    createdat timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updatedat timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    "createdAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -240,31 +240,31 @@ ALTER TABLE ONLY public.harvest
 --
 
 ALTER TABLE ONLY public.producer
-    ADD CONSTRAINT producer_pkey PRIMARY KEY (cpforcnpj);
+    ADD CONSTRAINT producer_pkey PRIMARY KEY ("cpfOrCnpj");
 
 
 --
 -- TOC entry 3237 (class 2620 OID 16466)
--- Name: farm atualizar_farm_updatedat_trigger; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: farm atualizar_farm_updatedAt_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER atualizar_farm_updatedat_trigger BEFORE UPDATE ON public.farm FOR EACH ROW EXECUTE FUNCTION public.atualizar_farm_updatedat();
+CREATE TRIGGER atualizar_farm_updatedAt_trigger BEFORE UPDATE ON public.farm FOR EACH ROW EXECUTE FUNCTION public.atualizar_farm_updatedAt();
 
 
 --
 -- TOC entry 3238 (class 2620 OID 16480)
--- Name: harvest atualizar_harvest_updatedat_trigger; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: harvest atualizar_harvest_updatedAt_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER atualizar_harvest_updatedat_trigger BEFORE UPDATE ON public.harvest FOR EACH ROW EXECUTE FUNCTION public.atualizar_harvest_updatedat();
+CREATE TRIGGER atualizar_harvest_updatedAt_trigger BEFORE UPDATE ON public.harvest FOR EACH ROW EXECUTE FUNCTION public.atualizar_harvest_updatedAt();
 
 
 --
 -- TOC entry 3236 (class 2620 OID 16450)
--- Name: producer atualizar_updatedat_trigger; Type: TRIGGER; Schema: public; Owner: postgres
+-- Name: producer atualizar_updatedAt_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
-CREATE TRIGGER atualizar_updatedat_trigger BEFORE UPDATE ON public.producer FOR EACH ROW EXECUTE FUNCTION public.atualizar_updatedat();
+CREATE TRIGGER atualizar_updatedAt_trigger BEFORE UPDATE ON public.producer FOR EACH ROW EXECUTE FUNCTION public.atualizar_updatedAt();
 
 
 --
@@ -282,7 +282,7 @@ ALTER TABLE ONLY public.harvest
 --
 
 ALTER TABLE ONLY public.farm
-    ADD CONSTRAINT fk_owner FOREIGN KEY (owner) REFERENCES public.producer(cpforcnpj) ON UPDATE CASCADE ON DELETE CASCADE;
+    ADD CONSTRAINT fk_owner FOREIGN KEY (owner) REFERENCES public.producer("cpfOrCnpj") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 -- Completed on 2025-06-04 18:02:43 -03

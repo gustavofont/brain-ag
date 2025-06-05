@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ProducerService } from './producer.service';
 import { ProducerController } from './producer.controller';
-import { SequelizeModule } from '@nestjs/sequelize';
-import Producer from './entities/producer.entity';
+import { DatabaseModule } from '@src/database/database.module';
+import producerProvider from './producer.provider';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Producer])],
+  imports: [DatabaseModule],
   controllers: [ProducerController],
-  providers: [ProducerService],
+  providers: [ProducerService, ...producerProvider],
   exports: [ProducerService],
 })
 export class ProducerModule {}

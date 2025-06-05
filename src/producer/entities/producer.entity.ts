@@ -1,18 +1,15 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, Model, PrimaryKey, Table } from 'sequelize-typescript';
 
-@Table
+@Table({
+  tableName: 'producer',
+})
 export default class Producer extends Model {
   @Column
   name: string;
 
+  @PrimaryKey
   @Column
-  declare cpforcnpj: string;
-
-  @Column
-  createdat: string;
-
-  @Column
-  updatedat: string;
+  declare cpfOrCnpj: string;
 
   // @HasMany(() => Post)
   // posts: Post[];

@@ -1,4 +1,4 @@
 export class CreateProducerDto {
   name: string;
-  cpforcnpj: string;
+  cpfOrCnpj: string;
 }
