@@ -1,19 +1,29 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import Farm from '@src/farm/entities/farm.entity';
+import {
+  BelongsTo,
+  Column,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
 
-@Table
+@Table({
+  tableName: 'harvest',
+})
 export default class Harvest extends Model {
+  @PrimaryKey
   @Column
   year: number;
 
+  @PrimaryKey
   @Column
   culture: string;
 
+  @ForeignKey(() => Farm)
   @Column
   farm: number;
 
-  @Column
-  createdat: Date;
-
-  @Column
-  updatedat: Date;
+  @BelongsTo(() => Farm)
+  FarmId: Farm;
 }

@@ -10,4 +10,4 @@ import producerProvider from './producer.provider';
   providers: [ProducerService, ...producerProvider],
   exports: [ProducerService],
 })
-export class ProducerModule {}
+export default class ProducerModule {}

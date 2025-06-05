@@ -1,19 +1,43 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import Harvest from '@src/harvest/entities/harvest.entity';
+import Producer from '@src/producer/entities/producer.entity';
+import {
+  BelongsTo,
+  Column,
+  ForeignKey,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 
-@Table
+@Table({
+  tableName: 'farm',
+})
 export default class Farm extends Model {
   @Column
-  producerName: string;
-  @Column
-  farmName: string;
+  name: string;
+
   @Column
   city: string;
+
   @Column
   state: string;
+
   @Column
   fieldSize: number;
+
   @Column
   cultivableField: number;
+
   @Column
   vegetationField: number;
+
+  @Column
+  @ForeignKey(() => Producer)
+  owner: string;
+
+  @BelongsTo(() => Producer)
+  producer: Producer;
+
+  @HasMany(() => Harvest)
+  harvests: Harvest[];
 }

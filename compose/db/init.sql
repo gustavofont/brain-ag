@@ -103,9 +103,9 @@ CREATE TABLE public.farm (
     name character varying(100) NOT NULL,
     city character varying(100) NOT NULL,
     state character varying(100) NOT NULL,
-    fieldsize integer NOT NULL,
-    cultivablefield integer NOT NULL,
-    vegetablefield integer NOT NULL,
+    "fieldSize" integer NOT NULL,
+    "cultivableField" integer NOT NULL,
+    "vegetationField" integer NOT NULL,
     owner character varying(20) NOT NULL,
     "createdAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" timestamp without time zone DEFAULT CURRENT_TIMESTAMP
