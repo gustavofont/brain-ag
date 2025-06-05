@@ -1,19 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { FarmModule } from './farm/farm.module';
-import { ProducerModule } from './producer/producer.module';
-import { HarvestModule } from './harvest/harvest.module';
 import { SequelizeModule } from '@nestjs/sequelize';
-import Producer from './producer/entities/producer.entity';
+import Producer from '@src/producer/entities/producer.entity';
 import Farm from './farm/entities/farm.entity';
 import Harvest from './harvest/entities/harvest.entity';
 
 @Module({
   imports: [
-    FarmModule,
-    ProducerModule,
-    HarvestModule,
     SequelizeModule.forRoot({
       dialect: 'postgres',
       host: 'localhost',
@@ -25,7 +17,5 @@ import Harvest from './harvest/entities/harvest.entity';
       autoLoadModels: true,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
-export class AppModule {}
+export class DatabaseModule {}
