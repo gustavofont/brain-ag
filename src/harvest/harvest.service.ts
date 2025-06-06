@@ -8,6 +8,12 @@ export class HarvestService {
   constructor(
     @Inject('HARVEST_REPOSITORY') private harvestRepository: typeof Harvest,
   ) {}
+
+  /**
+   * Creates a nem instance of harvest
+   * @param createHarvestDto parms of new harvest
+   * @returns HTTP Response
+   */
   async create(createHarvestDto: CreateHarvestDto) {
     try {
       const res = await this.harvestRepository.create({

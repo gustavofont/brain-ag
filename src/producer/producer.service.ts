@@ -2,6 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { UpdateProducerDto } from './dto/update-producer.dto';
 import Producer from './entities/producer.entity';
+import {
+  validateProducerCreate,
+  validateProducerUpdate,
+} from '@src/utils/validations';
+import { errorResponse, informationalResponse } from '@src/utils/HttpResponses';
+
+function cpfOrCnpjFormatter(cpfOrCnpj: string) {
+  return cpfOrCnpj.replace(/[^\d]/g, '');
+}
 
 @Injectable()
 export class ProducerService {
@@ -9,37 +18,119 @@ export class ProducerService {
     @Inject('PRODUCER_REPOSITORY') private producerRepository: typeof Producer,
   ) {}
 
+  /**
+   * Creates a new instance of Producer
+   * @param createProducerDto Producer params
+   * @returns HTTP Response
+   */
   async create(createProducerDto: CreateProducerDto) {
+    // Data formatter
+    createProducerDto.cpfOrCnpj = cpfOrCnpjFormatter(
+      createProducerDto.cpfOrCnpj,
+    );
+
+    const validate = validateProducerCreate(createProducerDto);
+
+    if (!validate.success) {
+      return {
+        statusCode: '400',
+        message: 'Data validation error',
+      };
+    }
+
     try {
-      const res = await this.producerRepository.create({
+      await this.producerRepository.create({
         name: createProducerDto.name,
         cpfOrCnpj: createProducerDto.cpfOrCnpj,
       });
 
-      console.log(res);
-
       return `Producer ${createProducerDto.name} Creeated !!!`;
     } catch (error) {
-      console.log(error);
-      return {
-        erro: 'deu erro',
-      };
+      return errorResponse(error, 500);
     }
   }
 
-  findAll() {
-    return `This action returns all producer`;
+  /**
+   * Returns all producers
+   * @returns HTTP Response
+   */
+  async findAll() {
+    try {
+      const response = await this.producerRepository.findAll();
+      return informationalResponse(200, undefined, response);
+    } catch (error) {
+      return errorResponse(error, 500);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} producer`;
+  /**
+   * Retuns Producer data by Id
+   * @param id Producer Id
+   * @returns HTTP Response
+   */
+  async findOne(id: number) {
+    try {
+      const response = await this.producerRepository.findOne({
+        where: { id: id },
+      });
+
+      if (!response) {
+        return informationalResponse(404, 'User Not Found');
+      }
+
+      return informationalResponse(200, undefined, response);
+    } catch (error) {
+      return errorResponse(error, 500);
+    }
   }
 
-  update(id: number, updateProducerDto: UpdateProducerDto) {
-    return `This action updates a #${id} producer`;
+  /**
+   * Updates Producer Data
+   * @param id Producer Id
+   * @param updateProducerDto Data to be updated
+   * @returns HTTP Response
+   */
+  async update(id: number, updateProducerDto: UpdateProducerDto) {
+    // Data formatter
+    if (updateProducerDto.cpfOrCnpj) {
+      updateProducerDto.cpfOrCnpj = cpfOrCnpjFormatter(
+        updateProducerDto.cpfOrCnpj,
+      );
+    }
+
+    const validate = validateProducerUpdate(updateProducerDto);
+
+    if (!validate.success) {
+      return informationalResponse(400, 'Data validation error');
+    }
+
+    try {
+      await this.producerRepository.update(
+        {
+          name: updateProducerDto.name,
+          cpfOrCnpj: updateProducerDto.cpfOrCnpj,
+        },
+        {
+          where: { id: id },
+        },
+      );
+      return informationalResponse(200, `Producer Updated !!!`);
+    } catch (error) {
+      return errorResponse(error, 500);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} producer`;
+  /**
+   * Deletes a Produce by id
+   * @param id Producer id
+   * @returns HTTP Response
+   */
+  async delete(id: number) {
+    try {
+      await this.producerRepository.destroy({ where: { id: id } });
+      return informationalResponse(200, 'Producer deleted');
+    } catch (error) {
+      return errorResponse(error, 500);
+    }
   }
 }

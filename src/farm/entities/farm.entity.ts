@@ -33,7 +33,7 @@ export default class Farm extends Model {
 
   @Column
   @ForeignKey(() => Producer)
-  owner: string;
+  owner: number;
 
   @BelongsTo(() => Producer)
   producer: Producer;
