@@ -14,7 +14,7 @@ export function errorResponse(err: unknown, statusCode: number) {
 
 export function informationalResponse(
   statusCode: number,
-  message?: string,
+  message?: string | object,
   data?: object,
 ) {
   return {

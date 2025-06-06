@@ -29,13 +29,10 @@ export class ProducerService {
       createProducerDto.cpfOrCnpj,
     );
 
-    const validate = validateProducerCreate(createProducerDto);
+    const validation = validateProducerCreate(createProducerDto);
 
-    if (!validate.success) {
-      return {
-        statusCode: '400',
-        message: 'Data validation error',
-      };
+    if (!validation.success) {
+      return informationalResponse(400, validation.error.issues);
     }
 
     try {
@@ -98,10 +95,10 @@ export class ProducerService {
       );
     }
 
-    const validate = validateProducerUpdate(updateProducerDto);
+    const validation = validateProducerUpdate(updateProducerDto);
 
-    if (!validate.success) {
-      return informationalResponse(400, 'Data validation error');
+    if (!validation.success) {
+      return informationalResponse(400, validation.error.issues);
     }
 
     try {

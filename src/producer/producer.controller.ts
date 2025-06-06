@@ -20,7 +20,7 @@ export class ProducerController {
     return this.producerService.create(createProducerDto);
   }
 
-  @Get('/all')
+  @Get()
   findAll() {
     return this.producerService.findAll();
   }
