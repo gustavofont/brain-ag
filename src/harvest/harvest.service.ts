@@ -38,7 +38,6 @@ export class HarvestService {
       console.log(error);
       return errorResponse(error, 500);
     }
-    return 'This action adds a new harvest';
   }
 
   /**
@@ -102,6 +101,11 @@ export class HarvestService {
     }
   }
 
+  /**
+   * Deletes Harvest by Id
+   * @param id Harvest id
+   * @returns HTTP Resquest
+   */
   async remove(id: number) {
     try {
       await this.harvestRepository.destroy({ where: { id: id } });
