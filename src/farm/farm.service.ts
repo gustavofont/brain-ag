@@ -60,9 +60,11 @@ export class FarmService {
     try {
       const response = await this.farmRepository.findOne({ where: { id: id } });
 
-      if (response) {
-        return informationalResponse(200, undefined, response);
+      if (!response) {
+        return informationalResponse(404, 'Farm Not Found');
       }
+
+      return informationalResponse(200, undefined, response);
     } catch (error) {
       errorResponse(error, 500);
     }

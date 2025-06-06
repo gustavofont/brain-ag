@@ -1,3 +1,10 @@
+/**
+ * Returns a HTTP Error Response based on params
+ * @param statusCode Status code
+ * @param message Server message
+ * @param data Server Data
+ * @returns HTTP Response
+ */
 export function errorResponse(err: unknown, statusCode: number) {
   if (err instanceof Error) {
     return {
@@ -12,6 +19,13 @@ export function errorResponse(err: unknown, statusCode: number) {
   }
 }
 
+/**
+ * Returns a HTTP Response based on params
+ * @param statusCode Status code
+ * @param message Server message
+ * @param data Server Data
+ * @returns HTTP Response
+ */
 export function informationalResponse(
   statusCode: number,
   message?: string | object,

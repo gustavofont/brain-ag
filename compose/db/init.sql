@@ -5,7 +5,7 @@
 -- Dumped from database version 17.5 (Debian 17.5-1.pgdg120+1)
 -- Dumped by pg_dump version 17.5 (Ubuntu 17.5-1.pgdg24.04+1)
 
--- Started on 2025-06-06 12:32:14 -03
+-- Started on 2025-06-06 17:48:38 -03
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,7 +30,7 @@ SET row_security = off;
 ALTER SCHEMA public OWNER TO pg_database_owner;
 
 --
--- TOC entry 3398 (class 0 OID 0)
+-- TOC entry 3401 (class 0 OID 0)
 -- Dependencies: 4
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
 --
@@ -56,7 +56,7 @@ $$;
 ALTER FUNCTION public.atualizar_farm_updatedat() OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1255 OID 16386)
+-- TOC entry 225 (class 1255 OID 16386)
 -- Name: atualizar_harvest_updatedat(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
@@ -94,7 +94,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 220 (class 1259 OID 16508)
+-- TOC entry 217 (class 1259 OID 16388)
 -- Name: farm; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -115,7 +115,7 @@ CREATE TABLE public.farm (
 ALTER TABLE public.farm OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 16507)
+-- TOC entry 218 (class 1259 OID 16393)
 -- Name: farm_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -131,8 +131,8 @@ CREATE SEQUENCE public.farm_id_seq
 ALTER SEQUENCE public.farm_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3399 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 3402 (class 0 OID 0)
+-- Dependencies: 218
 -- Name: farm_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -140,11 +140,12 @@ ALTER SEQUENCE public.farm_id_seq OWNED BY public.farm.id;
 
 
 --
--- TOC entry 221 (class 1259 OID 16522)
+-- TOC entry 222 (class 1259 OID 16435)
 -- Name: harvest; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.harvest (
+    id integer NOT NULL,
     year integer NOT NULL,
     culture character varying(50) NOT NULL,
     farm integer NOT NULL,
@@ -156,7 +157,32 @@ CREATE TABLE public.harvest (
 ALTER TABLE public.harvest OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 16469)
+-- TOC entry 221 (class 1259 OID 16434)
+-- Name: harvest_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.harvest_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.harvest_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3403 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: harvest_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.harvest_id_seq OWNED BY public.harvest.id;
+
+
+--
+-- TOC entry 219 (class 1259 OID 16399)
 -- Name: producer; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -172,7 +198,7 @@ CREATE TABLE public.producer (
 ALTER TABLE public.producer OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 16468)
+-- TOC entry 220 (class 1259 OID 16406)
 -- Name: producer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -188,8 +214,8 @@ CREATE SEQUENCE public.producer_id_seq
 ALTER SEQUENCE public.producer_id_seq OWNER TO postgres;
 
 --
--- TOC entry 3400 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 3404 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: producer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -197,7 +223,7 @@ ALTER SEQUENCE public.producer_id_seq OWNED BY public.producer.id;
 
 
 --
--- TOC entry 3225 (class 2604 OID 16511)
+-- TOC entry 3223 (class 2604 OID 16407)
 -- Name: farm id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -205,7 +231,15 @@ ALTER TABLE ONLY public.farm ALTER COLUMN id SET DEFAULT nextval('public.farm_id
 
 
 --
--- TOC entry 3222 (class 2604 OID 16472)
+-- TOC entry 3229 (class 2604 OID 16438)
+-- Name: harvest id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.harvest ALTER COLUMN id SET DEFAULT nextval('public.harvest_id_seq'::regclass);
+
+
+--
+-- TOC entry 3226 (class 2604 OID 16408)
 -- Name: producer id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -213,52 +247,61 @@ ALTER TABLE ONLY public.producer ALTER COLUMN id SET DEFAULT nextval('public.pro
 
 
 --
--- TOC entry 3391 (class 0 OID 16508)
--- Dependencies: 220
+-- TOC entry 3390 (class 0 OID 16388)
+-- Dependencies: 217
 -- Data for Name: farm; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.farm VALUES (1, 'Fazenda Boa Terra', 'Ribeirão', 'SP', 100, 80, 20, 1, '2025-06-06 12:24:16.663288', '2025-06-06 12:24:16.663288');
+INSERT INTO public.farm VALUES (1, 'Venus Farm', 'Sao Paulo', 'Sao Paulo', 10000, 5000, 2000, 1, '2025-06-06 15:49:19.688', '2025-06-06 19:45:51.449387');
 
 
 --
--- TOC entry 3392 (class 0 OID 16522)
--- Dependencies: 221
+-- TOC entry 3395 (class 0 OID 16435)
+-- Dependencies: 222
 -- Data for Name: harvest; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.harvest VALUES (2025, 'Milho', 1, '2025-06-06 12:25:55.804575', '2025-06-06 12:25:55.804575');
+INSERT INTO public.harvest VALUES (1, 2025, 'Orange', 1, '2025-06-06 20:46:00.182', '2025-06-06 20:46:00.182');
 
 
 --
--- TOC entry 3389 (class 0 OID 16469)
--- Dependencies: 218
+-- TOC entry 3392 (class 0 OID 16399)
+-- Dependencies: 219
 -- Data for Name: producer; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.producer VALUES (1, '12345678900', 'Elias da Pimentea', '2025-06-06 12:17:22.289836', '2025-06-06 12:17:52.669305');
+INSERT INTO public.producer VALUES (1, '12345678900', 'Juninho Capixaba', '2025-06-06 12:17:22.289836', '2025-06-06 19:14:34.498613');
 
 
 --
--- TOC entry 3401 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 3405 (class 0 OID 0)
+-- Dependencies: 218
 -- Name: farm_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.farm_id_seq', 1, true);
+SELECT pg_catalog.setval('public.farm_id_seq', 8, true);
 
 
 --
--- TOC entry 3402 (class 0 OID 0)
--- Dependencies: 217
+-- TOC entry 3406 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: harvest_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.harvest_id_seq', 1, true);
+
+
+--
+-- TOC entry 3407 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: producer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.producer_id_seq', 1, true);
+SELECT pg_catalog.setval('public.producer_id_seq', 23, true);
 
 
 --
--- TOC entry 3235 (class 2606 OID 16515)
+-- TOC entry 3233 (class 2606 OID 16410)
 -- Name: farm farm_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -267,16 +310,16 @@ ALTER TABLE ONLY public.farm
 
 
 --
--- TOC entry 3237 (class 2606 OID 16528)
--- Name: harvest pk_harvest; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 3239 (class 2606 OID 16442)
+-- Name: harvest harvest_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.harvest
-    ADD CONSTRAINT pk_harvest PRIMARY KEY (year, culture);
+    ADD CONSTRAINT harvest_pkey PRIMARY KEY (id);
 
 
 --
--- TOC entry 3231 (class 2606 OID 16480)
+-- TOC entry 3235 (class 2606 OID 16414)
 -- Name: producer producer_cpfOrCnpj_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -285,7 +328,7 @@ ALTER TABLE ONLY public.producer
 
 
 --
--- TOC entry 3233 (class 2606 OID 16478)
+-- TOC entry 3237 (class 2606 OID 16416)
 -- Name: producer producer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -294,7 +337,7 @@ ALTER TABLE ONLY public.producer
 
 
 --
--- TOC entry 3241 (class 2620 OID 16521)
+-- TOC entry 3242 (class 2620 OID 16417)
 -- Name: farm atualizar_farm_updatedat_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -302,7 +345,7 @@ CREATE TRIGGER atualizar_farm_updatedat_trigger BEFORE UPDATE ON public.farm FOR
 
 
 --
--- TOC entry 3242 (class 2620 OID 16534)
+-- TOC entry 3244 (class 2620 OID 16448)
 -- Name: harvest atualizar_harvest_updatedat_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -310,7 +353,7 @@ CREATE TRIGGER atualizar_harvest_updatedat_trigger BEFORE UPDATE ON public.harve
 
 
 --
--- TOC entry 3240 (class 2620 OID 16481)
+-- TOC entry 3243 (class 2620 OID 16419)
 -- Name: producer atualizar_updatedat_trigger; Type: TRIGGER; Schema: public; Owner: postgres
 --
 
@@ -318,7 +361,7 @@ CREATE TRIGGER atualizar_updatedat_trigger BEFORE UPDATE ON public.producer FOR 
 
 
 --
--- TOC entry 3239 (class 2606 OID 16529)
+-- TOC entry 3241 (class 2606 OID 16443)
 -- Name: harvest fk_farm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -327,7 +370,7 @@ ALTER TABLE ONLY public.harvest
 
 
 --
--- TOC entry 3238 (class 2606 OID 16516)
+-- TOC entry 3240 (class 2606 OID 16425)
 -- Name: farm fk_owner; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -335,7 +378,7 @@ ALTER TABLE ONLY public.farm
     ADD CONSTRAINT fk_owner FOREIGN KEY (owner) REFERENCES public.producer(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
--- Completed on 2025-06-06 12:32:20 -03
+-- Completed on 2025-06-06 17:48:44 -03
 
 --
 -- PostgreSQL database dump complete

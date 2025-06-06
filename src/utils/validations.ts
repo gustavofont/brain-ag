@@ -85,3 +85,37 @@ export const validateFarmUpdate = (input: unknown) => {
 
   return schema.safeParse(input);
 };
+
+/**
+ * Validates HarvestCreate data
+ * @param input Object
+ * @returns Zod schema
+ */
+export const validateHarvestCreate = (input: unknown) => {
+  const schema = z
+    .object({
+      year: z.number(),
+      culture: z.string(),
+      farm: z.number(),
+    })
+    .strict(); // Do not allow other keys
+
+  return schema.safeParse(input);
+};
+
+/**
+ * Validates HarvestUpdate data
+ * @param input Object
+ * @returns Zod schema
+ */
+export const validateHarvestUpdate = (input: unknown) => {
+  const schema = z
+    .object({
+      year: z.number().optional(),
+      culture: z.string().optional(),
+      farm: z.number().optional(),
+    })
+    .strict(); // Do not allow other keys
+
+  return schema.safeParse(input);
+};

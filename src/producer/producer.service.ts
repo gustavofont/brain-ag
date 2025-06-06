@@ -72,7 +72,7 @@ export class ProducerService {
       });
 
       if (!response) {
-        return informationalResponse(404, 'User Not Found');
+        return informationalResponse(404, 'Producer Not Found');
       }
 
       return informationalResponse(200, undefined, response);
