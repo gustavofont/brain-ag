@@ -6,37 +6,51 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { HarvestService } from './harvest.service';
 import { CreateHarvestDto } from './dto/create-harvest.dto';
 import { UpdateHarvestDto } from './dto/update-harvest.dto';
+import { Response } from 'express';
 
 @Controller('harvest')
 export class HarvestController {
   constructor(private readonly harvestService: HarvestService) {}
 
   @Post()
-  create(@Body() createHarvestDto: CreateHarvestDto) {
-    return this.harvestService.create(createHarvestDto);
+  async create(
+    @Res() res: Response,
+    @Body() createHarvestDto: CreateHarvestDto,
+  ) {
+    const response = await this.harvestService.create(createHarvestDto);
+    res.status(response.statusCode).send(response);
   }
 
   @Get()
-  findAll() {
-    return this.harvestService.findAll();
+  async findAll(@Res() res: Response) {
+    const response = await this.harvestService.findAll();
+    res.status(response.statusCode).send(response);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.harvestService.findOne(+id);
+  async findOne(@Res() res: Response, @Param('id') id: string) {
+    const response = await this.harvestService.findOne(+id);
+    res.status(response.statusCode).send(response);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHarvestDto: UpdateHarvestDto) {
-    return this.harvestService.update(+id, updateHarvestDto);
+  async update(
+    @Res() res: Response,
+    @Param('id') id: string,
+    @Body() updateHarvestDto: UpdateHarvestDto,
+  ) {
+    const response = await this.harvestService.update(+id, updateHarvestDto);
+    res.status(response.statusCode).send(response);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.harvestService.remove(+id);
+  async remove(@Res() res: Response, @Param('id') id: string) {
+    const response = await this.harvestService.remove(+id);
+    res.status(response.statusCode).send(response);
   }
 }

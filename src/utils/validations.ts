@@ -95,7 +95,7 @@ export const validateHarvestCreate = (input: unknown) => {
   const schema = z
     .object({
       year: z.number(),
-      culture: z.string(),
+      culture: z.string().min(2, 'Culture name to short'),
       farm: z.number(),
     })
     .strict(); // Do not allow other keys
@@ -112,7 +112,7 @@ export const validateHarvestUpdate = (input: unknown) => {
   const schema = z
     .object({
       year: z.number().optional(),
-      culture: z.string().optional(),
+      culture: z.string().min(2, 'Culture name to short').optional(),
       farm: z.number().optional(),
     })
     .strict(); // Do not allow other keys

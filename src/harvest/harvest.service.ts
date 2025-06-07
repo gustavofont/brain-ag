@@ -7,6 +7,7 @@ import {
   validateHarvestUpdate,
 } from '@src/utils/validations';
 import { errorResponse, informationalResponse } from '@src/utils/HttpResponses';
+import { HttpResponse } from '@src/utils/types';
 
 @Injectable()
 export class HarvestService {
@@ -19,7 +20,7 @@ export class HarvestService {
    * @param createHarvestDto parms of new harvest
    * @returns HTTP Response
    */
-  async create(createHarvestDto: CreateHarvestDto) {
+  async create(createHarvestDto: CreateHarvestDto): Promise<HttpResponse> {
     const validation = validateHarvestCreate(createHarvestDto);
 
     if (!validation.success) {
@@ -44,12 +45,12 @@ export class HarvestService {
    * Returns all instances of Harvest
    * @returns HTTP Response
    */
-  async findAll() {
+  async findAll(): Promise<HttpResponse> {
     try {
       const response = await this.harvestRepository.findAll();
       return informationalResponse(200, undefined, response);
     } catch (error) {
-      errorResponse(error, 500);
+      return errorResponse(error, 500);
     }
   }
 
@@ -58,7 +59,7 @@ export class HarvestService {
    * @param id Harvest Id
    * @returns HTTP Response
    */
-  async findOne(id: number) {
+  async findOne(id: number): Promise<HttpResponse> {
     try {
       const response = await this.harvestRepository.findOne({
         where: { id: id },
@@ -79,11 +80,14 @@ export class HarvestService {
    * @param id Harvest Id
    * @param updateHarvestDto Data to be updated
    */
-  async update(id: number, updateHarvestDto: UpdateHarvestDto) {
+  async update(
+    id: number,
+    updateHarvestDto: UpdateHarvestDto,
+  ): Promise<HttpResponse> {
     const validation = validateHarvestUpdate(updateHarvestDto);
 
     if (!validation.success) {
-      informationalResponse(400, validation.error.issues);
+      return informationalResponse(400, validation.error.issues);
     }
     try {
       await this.harvestRepository.update(
@@ -106,13 +110,13 @@ export class HarvestService {
    * @param id Harvest id
    * @returns HTTP Resquest
    */
-  async remove(id: number) {
+  async remove(id: number): Promise<HttpResponse> {
     try {
       await this.harvestRepository.destroy({ where: { id: id } });
 
       return informationalResponse(200, 'Harvest register deleted !');
     } catch (error) {
-      errorResponse(error, 500);
+      return errorResponse(error, 500);
     }
   }
 }

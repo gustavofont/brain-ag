@@ -7,6 +7,7 @@ import {
   validateProducerUpdate,
 } from '@src/utils/validations';
 import { errorResponse, informationalResponse } from '@src/utils/HttpResponses';
+import { HttpResponse } from '@src/utils/types';
 
 function cpfOrCnpjFormatter(cpfOrCnpj: string) {
   return cpfOrCnpj.replace(/[^\d]/g, '');
@@ -23,7 +24,7 @@ export class ProducerService {
    * @param createProducerDto Producer params
    * @returns HTTP Response
    */
-  async create(createProducerDto: CreateProducerDto) {
+  async create(createProducerDto: CreateProducerDto): Promise<HttpResponse> {
     // Data formatter
     createProducerDto.cpfOrCnpj = cpfOrCnpjFormatter(
       createProducerDto.cpfOrCnpj,
@@ -41,7 +42,7 @@ export class ProducerService {
         cpfOrCnpj: createProducerDto.cpfOrCnpj,
       });
 
-      return `Producer ${createProducerDto.name} Creeated !!!`;
+      return informationalResponse(200, 'Producer registered !!!');
     } catch (error) {
       return errorResponse(error, 500);
     }
@@ -51,7 +52,7 @@ export class ProducerService {
    * Returns all producers
    * @returns HTTP Response
    */
-  async findAll() {
+  async findAll(): Promise<HttpResponse> {
     try {
       const response = await this.producerRepository.findAll();
       return informationalResponse(200, undefined, response);
@@ -65,7 +66,7 @@ export class ProducerService {
    * @param id Producer Id
    * @returns HTTP Response
    */
-  async findOne(id: number) {
+  async findOne(id: number): Promise<HttpResponse> {
     try {
       const response = await this.producerRepository.findOne({
         where: { id: id },
@@ -87,7 +88,10 @@ export class ProducerService {
    * @param updateProducerDto Data to be updated
    * @returns HTTP Response
    */
-  async update(id: number, updateProducerDto: UpdateProducerDto) {
+  async update(
+    id: number,
+    updateProducerDto: UpdateProducerDto,
+  ): Promise<HttpResponse> {
     // Data formatter
     if (updateProducerDto.cpfOrCnpj) {
       updateProducerDto.cpfOrCnpj = cpfOrCnpjFormatter(
@@ -122,7 +126,7 @@ export class ProducerService {
    * @param id Producer id
    * @returns HTTP Response
    */
-  async delete(id: number) {
+  async delete(id: number): Promise<HttpResponse> {
     try {
       await this.producerRepository.destroy({ where: { id: id } });
       return informationalResponse(200, 'Producer deleted');

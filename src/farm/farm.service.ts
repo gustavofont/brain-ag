@@ -4,7 +4,22 @@ import { UpdateFarmDto } from './dto/update-farm.dto';
 import Farm from './entities/farm.entity';
 import { validateFarmCreate, validateFarmUpdate } from '@src/utils/validations';
 import { errorResponse, informationalResponse } from '@src/utils/HttpResponses';
+import { HttpResponse } from '@src/utils/types';
 
+/**
+ * Validates farm fields entries
+ * @param createFarmDto Farm entries
+ * @returns Validation Boolean
+ */
+function validateFarmField(createFarmDto: CreateFarmDto) {
+  if (
+    createFarmDto.cultivableField + createFarmDto.vegetationField >
+    createFarmDto.fieldSize
+  ) {
+    return false;
+  }
+  return true;
+}
 @Injectable()
 export class FarmService {
   constructor(@Inject('FARM_REPOSITORY') private farmRepository: typeof Farm) {}
@@ -14,7 +29,14 @@ export class FarmService {
    * @param createFarmDto Farm params
    * @returns HTTP Response
    */
-  async create(createFarmDto: CreateFarmDto) {
+  async create(createFarmDto: CreateFarmDto): Promise<HttpResponse> {
+    if (!validateFarmField(createFarmDto)) {
+      return informationalResponse(
+        400,
+        'Field validation error: sum of cultivableField and vegetationField is greater than fieldSize',
+      );
+    }
+
     const validation = validateFarmCreate(createFarmDto);
 
     if (!validation.success) {
@@ -42,7 +64,7 @@ export class FarmService {
    * Rreturns all Farms
    * @returns HTTP Response
    */
-  async findAll() {
+  async findAll(): Promise<HttpResponse> {
     try {
       const response = await this.farmRepository.findAll();
       return informationalResponse(200, undefined, response);
@@ -56,7 +78,7 @@ export class FarmService {
    * @param id Farm id
    * @returns HTTP Response
    */
-  async findOne(id: number) {
+  async findOne(id: number): Promise<HttpResponse> {
     try {
       const response = await this.farmRepository.findOne({ where: { id: id } });
 
@@ -66,10 +88,8 @@ export class FarmService {
 
       return informationalResponse(200, undefined, response);
     } catch (error) {
-      errorResponse(error, 500);
+      return errorResponse(error, 500);
     }
-
-    return `This action returns a #${id} farm`;
   }
 
   /**
@@ -78,7 +98,10 @@ export class FarmService {
    * @param updateFarmDto Data to be updated
    * @returns HTTP Response
    */
-  async update(id: number, updateFarmDto: UpdateFarmDto) {
+  async update(
+    id: number,
+    updateFarmDto: UpdateFarmDto,
+  ): Promise<HttpResponse> {
     const validation = validateFarmUpdate(updateFarmDto);
 
     if (!validation.success) {
@@ -110,7 +133,7 @@ export class FarmService {
    * @param id Farm Id
    * @returns HTTP Response
    */
-  async remove(id: number) {
+  async remove(id: number): Promise<HttpResponse> {
     try {
       await this.farmRepository.destroy({ where: { id: id } });
 

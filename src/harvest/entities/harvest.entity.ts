@@ -1,5 +1,6 @@
 import Farm from '@src/farm/entities/farm.entity';
 import {
+  AutoIncrement,
   BelongsTo,
   Column,
   ForeignKey,
@@ -12,6 +13,11 @@ import {
   tableName: 'harvest',
 })
 export default class Harvest extends Model {
+  @PrimaryKey
+  @AutoIncrement
+  @Column
+  declare id: number;
+
   @PrimaryKey
   @Column
   year: number;
