@@ -5,6 +5,8 @@ import Farm from './entities/farm.entity';
 import { validateFarmCreate, validateFarmUpdate } from '@src/utils/validations';
 import { errorResponse, informationalResponse } from '@src/utils/HttpResponses';
 import { HttpResponse } from '@src/utils/types';
+import Harvest from '@src/harvest/entities/harvest.entity';
+import { farmStatistics } from './farmUtils';
 
 /**
  * Validates farm fields entries
@@ -138,6 +140,20 @@ export class FarmService {
       await this.farmRepository.destroy({ where: { id: id } });
 
       return informationalResponse(200, 'Farn register deleted !');
+    } catch (error) {
+      return errorResponse(error, 500);
+    }
+  }
+
+  async dashboard(): Promise<HttpResponse> {
+    try {
+      const farms = await this.farmRepository.findAll({
+        include: [{ model: Harvest }],
+      });
+
+      const data = farmStatistics(farms as any);
+
+      return informationalResponse(200, undefined, data);
     } catch (error) {
       return errorResponse(error, 500);
     }

@@ -23,6 +23,12 @@ export class FarmController {
     res.status(response.statusCode).send(response);
   }
 
+  @Get('/dashboard')
+  async dashboard(@Res() res: Response) {
+    const response = await this.farmService.dashboard();
+    res.status(response.statusCode).send(response);
+  }
+
   @Get()
   async findAll(@Res() res: Response) {
     const response = await this.farmService.findAll();
