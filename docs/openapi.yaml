@@ -1,0 +1,232 @@
+openapi: 3.0.3
+info:
+  title: API Agrícola
+  description: API para gerenciamento de produtores, fazendas e colheitas.
+  version: 1.0.0
+
+servers:
+  - url: https://api.exemplo.com/v1
+    description: Servidor de Produção
+
+paths:
+  /producers:
+    get:
+      summary: Lista todos os produtores
+      responses:
+        '200':
+          description: Lista de produtores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Producer'
+    post:
+      summary: Cria um novo produtor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producer'
+      responses:
+        '201':
+          description: Produtor criado com sucesso
+
+  /producers/{id}:
+    get:
+      summary: Busca um produtor por ID
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Dados do produtor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producer'
+    patch:
+      summary: Atualiza um produtor
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producer'
+      responses:
+        '200':
+          description: Produtor atualizado
+    delete:
+      summary: Deleta um produtor
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Produtor deletado
+
+  /farms:
+    get:
+      summary: Lista todas as fazendas
+      responses:
+        '200':
+          description: Lista de fazendas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Farm'
+    post:
+      summary: Cria uma nova fazenda
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farm'
+      responses:
+        '201':
+          description: Fazenda criada
+
+  /farms/{id}:
+    get:
+      summary: Busca uma fazenda por ID
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Dados da fazenda
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farm'
+    patch:
+      summary: Atualiza uma fazenda
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Farm'
+      responses:
+        '200':
+          description: Fazenda atualizada
+    delete:
+      summary: Deleta uma fazenda
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Fazenda deletada
+
+  /harvests:
+    get:
+      summary: Lista todas as colheitas
+      responses:
+        '200':
+          description: Lista de colheitas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Harvest'
+    post:
+      summary: Cria uma nova colheita
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Harvest'
+      responses:
+        '201':
+          description: Colheita criada
+
+  /harvests/{id}:
+    get:
+      summary: Busca uma colheita por ID
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Dados da colheita
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Harvest'
+    patch:
+      summary: Atualiza uma colheita
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Harvest'
+      responses:
+        '200':
+          description: Colheita atualizada
+    delete:
+      summary: Deleta uma colheita
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Colheita deletada
+
+components:
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: ID do recurso
+
+  schemas:
+    Producer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        document:
+          type: string
+        email:
+          type: string
+
+    Farm:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        size:
+          type: number
+
+    Harvest:
+      type: object
+      properties:
+        id:
+          type: string
+        farmId:
+          type: string
+        crop:
+          type: string
+        quantity:
+          type: number
+          format: float
+        date:
+          type: string
+          format: date
