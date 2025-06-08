@@ -35,14 +35,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/producer/all",
+							"raw": "localhost:3000/producer",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"producer",
-								"all"
+								"producer"
 							]
 						}
 					},
@@ -113,14 +112,14 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/producer/9",
+							"raw": "localhost:3000/producer/10",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"producer",
-								"9"
+								"10"
 							]
 						}
 					},
@@ -144,14 +143,14 @@
 							"raw": "{\n    \"name\":\"Juninho Capixaba\"\n}"
 						},
 						"url": {
-							"raw": "localhost:3000/farm/2",
+							"raw": "localhost:3000/farm/3",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"farm",
-								"2"
+								"3"
 							]
 						}
 					},
@@ -182,7 +181,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Yasmim Farm\",\n    \"city\": \"Ananideua\",\n    \"state\": \"Para\",\n    \"fieldSize\": 8000,\n    \"cultivableField\": 5000,\n    \"vegetationField\": 2000,\n    \"owner\": 1\n}",
+							"raw": "{\n    \"name\": \"Cambota Farm\",\n    \"city\": \"Belem\",\n    \"state\": \"Para\",\n    \"fieldSize\": 20000,\n    \"cultivableField\": 7000,\n    \"vegetationField\": 5000,\n    \"owner\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -209,7 +208,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Venus Farm\",\n    \"city\": \"Sao Paulo\",\n    \"state\": \"Sao Paulo\",\n    \"fieldSize\": 10000,\n    \"cultivableField\": 5000,\n    \"vegetationField\": 2000,\n    \"ownerr\": 4\n}",
+							"raw": "{\n    \"name\": \"Venus Farm\",\n    \"city\": \"Sao Paulo\",\n    \"state\": \"Sao Paulo\",\n    \"fieldSize\": 10000,\n    \"cultivableField\": 8000,\n    \"vegetationField\": 2000,\n    \"owner\": 3\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -217,14 +216,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/farm/2",
+							"raw": "localhost:3000/farm/1",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"farm",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -240,14 +239,40 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/farm/1",
+							"raw": "localhost:3000/farm/11",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"farm",
-								"1"
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDashboard",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/farm/dashboard",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"farm",
+								"dashboard"
 							]
 						}
 					},
@@ -283,7 +308,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"year\": 2025,\n    \"culture\": \"Orange\",\n    \"farm\": 2\n}",
+							"raw": "{\n    \"year\": 2025,\n    \"culture\": \"potato\",\n    \"farm\": 10\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -307,18 +332,29 @@
 					"name": "GetHarvestById",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/harvest/7",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"harvest",
+								"7"
+							]
+						}
 					},
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "UpdateHarvest",
 					"request": {
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"year\": 2025,\n    \"culture\": \"Orange\",\n    \"farm\": 1\n}",
+							"raw": "{\n    \"culture\": \"potato\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -326,24 +362,39 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/harvest/1",
+							"raw": "localhost:3000/harvest/7",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"harvest",
-								"1"
+								"7"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "DeleteHarvest",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"year\": 2025,\n    \"culture\": \"Orange\",\n    \"farm\": 1\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/harvest/10",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"harvest",
+								"10"
+							]
+						}
 					},
 					"response": []
 				}
