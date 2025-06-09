@@ -2,115 +2,19 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FarmService } from './farm.service';
 import Farm from './entities/farm.entity';
 import { CreateFarmDto } from './dto/create-farm.dto';
+import { farmMockData } from '@src/utils/mockData';
 
 describe('FarmService', () => {
   let service: FarmService;
   let farmModel: typeof Farm;
 
-  const createFarmData: CreateFarmDto = {
-    name: 'Cambota Farm',
-    city: 'Belem',
-    state: 'Para',
-    fieldSize: 20000,
-    cultivableField: 7000,
-    vegetationField: 5000,
-    owner: 1,
-  };
-
-  const createFarmDataWrong = {
-    name: 'Cambota Farm',
-    city: 'Belem',
-    state: 'Para',
-    fieldSize: 20000,
-    cultivableField: 7000,
-    vegetationField: 5000,
-    ownerr: 1,
-  };
-
-  const findAllMockResponse = [
-    {
-      id: 1,
-      name: 'Venus Farm',
-      city: 'Sao Paulo',
-      state: 'Sao Paulo',
-      fieldSize: 10000,
-      cultivableField: 5000,
-      vegetationField: 2000,
-      owner: 1,
-      createdAt: '2025-06-06T18:49:19.688Z',
-      updatedAt: '2025-06-06T22:45:51.449Z',
-    },
-  ];
-
-  const farmFromDb = {
-    id: 1,
-    name: 'Venus Farm',
-    city: 'Sao Paulo',
-    state: 'Sao Paulo',
-    fieldSize: 10000,
-    cultivableField: 5000,
-    vegetationField: 2000,
-    owner: 1,
-    createdAt: '2025-06-06T18:49:19.688Z',
-    updatedAt: '2025-06-06T22:45:51.449Z',
-  };
-
-  const farmsForDashboard = [
-    {
-      dataValues: {
-        id: 1,
-        name: 'Venus Farm',
-        city: 'Sao Paulo',
-        state: 'Sao Paulo',
-        fieldSize: 10000,
-        cultivableField: 5000,
-        vegetationField: 2000,
-        owner: 1,
-        createdAt: '2025-06-06T18:49:19.688Z',
-        updatedAt: '2025-06-06T22:45:51.449Z',
-        harvests: [
-          {
-            dataValues: {
-              id: 1,
-              year: 2025,
-              culture: 'Potato',
-              farm: 1,
-              createdAt: '2025-06-07T20:20:42.996Z',
-              updatedAt: '2025-06-07T20:20:42.996Z',
-            },
-          },
-          {
-            dataValues: {
-              id: 4,
-              year: 2024,
-              culture: 'Potato',
-              farm: 1,
-              createdAt: '2025-06-07T20:27:55.461Z',
-              updatedAt: '2025-06-07T20:27:55.461Z',
-            },
-          },
-          {
-            dataValues: {
-              id: 7,
-              year: 2023,
-              culture: 'Tomato',
-              farm: 1,
-              createdAt: '2025-06-07T20:28:24.429Z',
-              updatedAt: '2025-06-07T20:28:24.429Z',
-            },
-          },
-        ],
-      },
-    },
-  ];
-
   const mockFarmModel = {
     create: jest.fn(),
     findAll: jest
       .fn()
-      .mockResolvedValueOnce(findAllMockResponse)
-      .mockResolvedValueOnce(farmsForDashboard),
-    findOne: jest.fn().mockRejectedValue(farmFromDb),
+      .mockResolvedValueOnce(farmMockData.findAllMockResponse)
+      .mockResolvedValueOnce(farmMockData.findAllMockResponseDashboard),
+    findOne: jest.fn().mockRejectedValue(farmMockData.findOneMockResponse),
     update: jest.fn(),
     destroy: jest.fn(),
     // findByPk: jest.fn().mockResolvedValue(mockFarm),
@@ -136,23 +40,25 @@ describe('FarmService', () => {
   });
 
   describe('Create Farm', () => {
+    const createFarmDto = farmMockData.createFarmData as CreateFarmDto;
+
     it('Should send the right data', async () => {
-      await service.create(createFarmData);
+      await service.create(createFarmDto);
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(farmModel.create).toHaveBeenCalledWith({
-        name: createFarmData.name,
-        city: createFarmData.city,
-        state: createFarmData.state,
-        fieldSize: createFarmData.fieldSize,
-        cultivableField: createFarmData.cultivableField,
-        vegetationField: createFarmData.vegetationField,
-        owner: createFarmData.owner,
+        name: createFarmDto.name,
+        city: createFarmDto.city,
+        state: createFarmDto.state,
+        fieldSize: createFarmDto.fieldSize,
+        cultivableField: createFarmDto.cultivableField,
+        vegetationField: createFarmDto.vegetationField,
+        owner: createFarmDto.owner,
       });
     });
 
     it('Should return a Http Response', async () => {
-      const response = await service.create(createFarmData);
+      const response = await service.create(createFarmDto);
 
       expect(response).toEqual({
         statusCode: 200,
@@ -164,7 +70,7 @@ describe('FarmService', () => {
   describe('Create Farm with wrong Data', () => {
     it('Should return a Http Response with an error message and status 400', async () => {
       const response = await service.create(
-        createFarmDataWrong as unknown as CreateFarmDto,
+        farmMockData.createFarmDataWrong as unknown as CreateFarmDto,
       );
 
       expect(response.statusCode).toEqual(400);
@@ -197,7 +103,7 @@ describe('FarmService', () => {
   describe('Update farm by id', () => {
     it('Should return a Http Response', async () => {
       const id = 1;
-      const response = await service.update(id, createFarmData);
+      const response = await service.update(id, farmMockData.createFarmData);
 
       expect(response).toEqual({
         statusCode: 200,
