@@ -57,7 +57,7 @@ paths:
                       example: 500
                     message:
                       type: string
-                      example: "Validation error"
+                      example: "Internal server error"
 
 
   /producer/{id}:
@@ -165,7 +165,7 @@ paths:
                       example: 500
                     message:
                       type: string
-                      example: "Validation error"
+                      example: "Internal server error"
 
   /farm/{id}:
     get:
@@ -272,7 +272,7 @@ paths:
                       example: 500
                     message:
                       type: string
-                      example: "Validation error"
+                      example: "Internal server error"
 
   /harvest/{id}:
     get:
