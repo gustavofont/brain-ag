@@ -1,6 +1,28 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { faker } from '@faker-js/faker';
 
+const numberOfProducers = 100;
+const farmsByProducr = 2;
+const harverstByFarm = 3;
+
+/**
+ * Generates N distinct year
+ * @param N Number os distinct years
+ * @param min Year min
+ * @param max Year max
+ * @returns Array os years
+ */
+function generateDistinctYear(N: number, min: number, max: number): number[] {
+  const distinctNumbers = new Set<number>();
+
+  while (distinctNumbers.size < N) {
+    const num = faker.number.int({ min, max });
+    distinctNumbers.add(num);
+  }
+
+  return Array.from(distinctNumbers);
+}
+
 // Conexão com o banco (altere conforme necessário)
 const sequelize = new Sequelize(
   'postgres://postgres:postgres@localhost:5432/brain_ag',
@@ -74,9 +96,9 @@ Farm.init(
     name: DataTypes.STRING,
     city: DataTypes.STRING,
     state: DataTypes.STRING,
-    fieldSize: DataTypes.FLOAT,
-    cultivableField: DataTypes.FLOAT,
-    vegetationField: DataTypes.FLOAT,
+    fieldSize: DataTypes.INTEGER,
+    cultivableField: DataTypes.INTEGER,
+    vegetationField: DataTypes.INTEGER,
     owner: { type: DataTypes.INTEGER, allowNull: false },
   },
   {
@@ -129,9 +151,7 @@ Harvest.belongsTo(Farm, { foreignKey: 'farm' });
 // --- Seed Function ---
 async function seedDatabase() {
   try {
-    await sequelize.sync({ force: true });
-
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < numberOfProducers; i++) {
       const producer = await Producer.create({
         cpfOrCnpj: faker.string
           .numeric(11)
@@ -139,18 +159,16 @@ async function seedDatabase() {
         name: faker.person.fullName(),
       });
 
-      for (let j = 0; j < 2; j++) {
-        const fieldSize = faker.number.float({
+      for (let j = 0; j < farmsByProducr; j++) {
+        const fieldSize = faker.number.int({
           min: 50,
           max: 500,
         });
-        const cultivableField = faker.number.float({
+        const cultivableField = faker.number.int({
           min: 10,
           max: fieldSize,
         });
-        const vegetationField = Number(
-          (fieldSize - cultivableField).toFixed(2),
-        );
+        const vegetationField = Number(fieldSize - cultivableField);
 
         const farm = await Farm.create({
           name: faker.company.name(),
@@ -162,9 +180,11 @@ async function seedDatabase() {
           owner: producer.dataValues.id,
         });
 
-        for (let k = 0; k < 3; k++) {
+        const harvestYear = generateDistinctYear(harverstByFarm, 2000, 2100);
+
+        for (let k = 0; k < harverstByFarm; k++) {
           await Harvest.create({
-            year: faker.number.int({ min: 2000, max: 2100 }),
+            year: harvestYear[k],
             culture: faker.helpers.arrayElement([
               'Soja',
               'Milho',
