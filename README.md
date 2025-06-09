@@ -112,7 +112,7 @@ docker compose up --build
  - Zod (Validação de campos) 
    
 ## 🌱 Populando o Banco de Dados
- - Obs: Os pacotes do projeto precisam estar instalados, caso não tenha intalado :
+ - Obs: Os pacotes do projeto precisam estar instalados, caso não tenha instalado :
 ```
 npm i
 ```
