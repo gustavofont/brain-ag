@@ -252,7 +252,7 @@ ALTER TABLE ONLY public.producer ALTER COLUMN id SET DEFAULT nextval('public.pro
 -- Data for Name: farm; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.farm VALUES (1, 'Venus Farm', 'Sao Paulo', 'Sao Paulo', 10000, 5000, 2000, 1, '2025-06-06 15:49:19.688', '2025-06-06 19:45:51.449387');
+INSERT INTO public.farm VALUES (1, 'Venus Farm', 'Sao Paulo', 'SP', 10000, 5000, 2000, 1, '2025-06-06 15:49:19.688', '2025-06-06 19:45:51.449387');
 
 
 --
