@@ -1,98 +1,128 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Brain-ag
+Uma API RESTful desenvolvida para gerenciar Produtores, Fazendas e Safras. Esta aplicação fornece um sistema de backend para registrar, atualizar, deletar e consultar dados da produção rural.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 📋 Funcionalidades
+ - Operações completas de CRUD para: Producers, Farms, Harvests
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+ - RESTful endpoints
 
-## Description
+ - Testes unitários das funcionalidades principais
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+ - Script de seed para popular o banco de dados com dados iniciais
 
-## Project setup
+ - Página de documentação interativa via OpenAPI
 
-```bash
-$ npm install
+## 🧭 Estrutura da API
+A API segue os princípios RESTful e é organizada em torno de três entidades principais: Producer, Farm e Harvest. Cada recurso possui rotas específicas para operações de CRUD e relacionamentos bem definidos entre si.
+
+### 🔗 Endpoints Principais
+ - 👨‍🌾 Produtores (/producers)
+
+GET /producer — Lista todos os produtores
+
+GET /producer/:id — Busca um produtor pelo ID
+
+POST /producer — Cria um novo produtor
+
+PUT /producer/:id — Atualiza um produtor existente
+
+DELETE /producer/:id — Remove um produtor
+
+ - 🌾 Fazendas (/farms)
+
+GET /farm — Lista todas as fazendas
+
+GET /farm/:id — Busca uma fazenda pelo ID
+
+POST /farm — Cria uma nova fazenda (relacionada a um produtor)
+
+PUT /farm/:id — Atualiza uma fazenda existente
+
+DELETE /farm/:id — Remove uma fazenda
+
+ - 🌱 Safras (/harvests)
+
+GET /harvest — Lista todas as safras
+
+GET /harvest/:id — Busca uma safra pelo ID
+
+POST /harvest — Cria uma nova safra (relacionada a uma fazenda)
+
+PUT /harvest/:id — Atualiza uma safra existente
+
+DELETE /harvest/:id — Remove uma safra
+
+### 🔄 Relacionamentos Entre Entidades
+Produtor possui múltiplas Fazendas
+
+Fazenda pertence a um único Produtor e possui múltiplas Safras
+
+Safra pertence a uma única Fazenda
+
+## 🚀 Como rodar o projeto
+### Pré-requisitos
+
+ - Docker Compose (v2.29+)
+
+ - Git
+
+ - Docker (v27+)
+
+### Passos
+ - Clone o repositório:
+
 ```
-
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/gustavofont/brain-ag
 ```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+ - Entrar na raiz do projeto:
 ```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+cd brain-ag
 ```
+ - Entrar no diretório /compose:
+```
+cd compose
+```
+ - Instale o projeto (opcional):
+```
+npm i
+```
+ - Iniciar o projeto:
+```
+docker compose up --build
+```
+ - Acesse no navegador:
+[http://localhost:3000] (deve aparecer uma mensagem da api)
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 📫 Coleção Postman
+ O projeto inclui um arquivo de configuração para o Postman, contendo todas as rotas da API organizadas por categoria (Producer, Farm, Harvest).
 
-## Resources
+ ``` 
+  brain_ag.postman_collection.json
+ ```
 
-Check out a few resources that may come in handy when working with NestJS:
+ ### Como Usar:
+ - Importe o arquivo de configuração na interface do postman
+## 🛠️ Tecnologias Utilizadas
+ - Node.js / NestJs (Aplicação)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+ - PostgreSQL / Sequelize (Banco de dados)
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+ - Jest (Testes unitários)
+ 
+ - Zod (Validação de campos) 
+   
+## 🌱 Populando o Banco de Dados
+ - Obs: Os pacotes do projeto precisam estar instalados, caso não tenha intalado :
+```
+npm i
+```
+ - Popular o banco de dados :
+```
+npm run db:seed
+```
+ - O script padrão cria : 100 Poducers, 200 Farms, 600 harvest
+## 🧪 Executando Testes
+ - Os testes unitários pode ser executados com o comando :
+```
+npm run test
+```
