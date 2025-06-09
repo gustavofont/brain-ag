@@ -28,15 +28,13 @@ export class HarvestService {
     }
 
     try {
-      const res = await this.harvestRepository.create({
+      await this.harvestRepository.create({
         year: createHarvestDto.year,
         culture: createHarvestDto.culture,
         farm: createHarvestDto.farm,
       });
-      console.log(res);
       return informationalResponse(200, 'Harvest registered !');
     } catch (error) {
-      console.log(error);
       return errorResponse(error, 500);
     }
   }
