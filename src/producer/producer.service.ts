@@ -25,18 +25,18 @@ export class ProducerService {
    * @returns HTTP Response
    */
   async create(createProducerDto: CreateProducerDto): Promise<HttpResponse> {
-    // Data formatter
-    createProducerDto.cpfOrCnpj = cpfOrCnpjFormatter(
-      createProducerDto.cpfOrCnpj,
-    );
-
-    const validation = validateProducerCreate(createProducerDto);
-
-    if (!validation.success) {
-      return informationalResponse(400, validation.error.issues);
-    }
-
     try {
+      const validation = validateProducerCreate(createProducerDto);
+
+      if (!validation.success) {
+        return informationalResponse(400, validation.error.issues);
+      }
+
+      // Data formatter
+      createProducerDto.cpfOrCnpj = cpfOrCnpjFormatter(
+        createProducerDto.cpfOrCnpj,
+      );
+
       await this.producerRepository.create({
         name: createProducerDto.name,
         cpfOrCnpj: createProducerDto.cpfOrCnpj,
