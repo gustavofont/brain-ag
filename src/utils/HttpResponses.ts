@@ -1,3 +1,5 @@
+import logger from '@src/logges';
+
 /**
  * Returns a HTTP Error Response based on params
  * @param statusCode Status code
@@ -6,6 +8,7 @@
  * @returns HTTP Response
  */
 export function errorResponse(err: unknown, statusCode: number) {
+  logger.error(err);
   if (err instanceof Error) {
     return {
       statusCode,
@@ -31,6 +34,10 @@ export function informationalResponse(
   message?: string | object,
   data?: object,
 ) {
+  if (message) {
+    logger.info(message);
+  }
+
   return {
     statusCode,
     message,
