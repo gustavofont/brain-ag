@@ -1,28 +1,28 @@
 openapi: 3.0.3
 info:
-  title: API Agrícola
-  description: API para gerenciamento de produtores, fazendas e colheitas.
+  title: Brain-ag
+  description: Brain-ag rest API.
   version: 1.0.0
 
 servers:
   - url: https://api.exemplo.com/v1
-    description: Servidor de Produção
+    description: Brain-ag
 
 paths:
-  /producers:
+  /producer:
     get:
-      summary: Lista todos os produtores
+      summary: List all Producers
       responses:
         '200':
-          description: Lista de produtores
+          description: List of producers
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Producer'
+                  $ref: '#/components/schemas/ProducerResponse'
     post:
-      summary: Cria um novo produtor
+      summary: Create a new Produtor register
       requestBody:
         required: true
         content:
@@ -31,22 +31,49 @@ paths:
               $ref: '#/components/schemas/Producer'
       responses:
         '201':
-          description: Produtor criado com sucesso
+          description: Producer regitered !
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 200
+                    message:
+                      type: string
+                      example: "Producer registered !!!"
+        '500':
+          description: Error !
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 500
+                    message:
+                      type: string
+                      example: "Validation error"
 
-  /producers/{id}:
+
+  /producer/{id}:
     get:
-      summary: Busca um produtor por ID
+      summary: Get Producer by Id
       parameters:
         - $ref: '#/components/parameters/IdParam'
       responses:
         '200':
-          description: Dados do produtor
+          description: Producer Data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Producer'
+                $ref: '#/components/schemas/ProducerResponse'
     patch:
-      summary: Atualiza um produtor
+      summary: Update Produtor
       parameters:
         - $ref: '#/components/parameters/IdParam'
       requestBody:
@@ -57,18 +84,42 @@ paths:
               $ref: '#/components/schemas/Producer'
       responses:
         '200':
-          description: Produtor atualizado
+          description: Producer Upated!
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 200
+                    message:
+                      type: string
+                      example: "Producer Updated !!!"
     delete:
-      summary: Deleta um produtor
+      summary: Delete a Producer
       parameters:
         - $ref: '#/components/parameters/IdParam'
       responses:
         '204':
-          description: Produtor deletado
+          description: Producer Deleted !
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 200
+                    message:
+                      type: string
+                      example: "Producer deleted"
 
-  /farms:
+  /farm:
     get:
-      summary: Lista todas as fazendas
+      summary: List all farms
       responses:
         '200':
           description: Lista de fazendas
@@ -77,9 +128,9 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Farm'
+                  $ref: '#/components/schemas/FarmResponse'
     post:
-      summary: Cria uma nova fazenda
+      summary: Register a new Farm
       requestBody:
         required: true
         content:
@@ -88,22 +139,48 @@ paths:
               $ref: '#/components/schemas/Farm'
       responses:
         '201':
-          description: Fazenda criada
+          description: Farm regitered !
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 200
+                    message:
+                      type: string
+                      example: "Farm registered !!!"
+        '500':
+          description: Error !
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 500
+                    message:
+                      type: string
+                      example: "Validation error"
 
-  /farms/{id}:
+  /farm/{id}:
     get:
-      summary: Busca uma fazenda por ID
+      summary: Get a farm by Id
       parameters:
         - $ref: '#/components/parameters/IdParam'
       responses:
         '200':
-          description: Dados da fazenda
+          description: Farm Data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Farm'
+                $ref: '#/components/schemas/FarmResponse'
     patch:
-      summary: Atualiza uma fazenda
+      summary: Update a Farm
       parameters:
         - $ref: '#/components/parameters/IdParam'
       requestBody:
@@ -114,29 +191,53 @@ paths:
               $ref: '#/components/schemas/Farm'
       responses:
         '200':
-          description: Fazenda atualizada
+          description: Farm Upated!
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 200
+                    message:
+                      type: string
+                      example: "Farm Updated !!!"
     delete:
       summary: Deleta uma fazenda
       parameters:
         - $ref: '#/components/parameters/IdParam'
       responses:
         '204':
-          description: Fazenda deletada
+          description: Farm Deleted !
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 200
+                    message:
+                      type: string
+                      example: "Farm deleted"
 
-  /harvests:
+  /harvest:
     get:
-      summary: Lista todas as colheitas
+      summary: List all Harvests
       responses:
         '200':
-          description: Lista de colheitas
+          description: Harvests list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Harvest'
+                  $ref: '#/components/schemas/HarvestResponse'
     post:
-      summary: Cria uma nova colheita
+      summary: Creates a new Harvest
       requestBody:
         required: true
         content:
@@ -145,20 +246,46 @@ paths:
               $ref: '#/components/schemas/Harvest'
       responses:
         '201':
-          description: Colheita criada
+          description: Harvest regitered !
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 200
+                    message:
+                      type: string
+                      example: "Harvest registered !!!"
+        '500':
+          description: Error !
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 500
+                    message:
+                      type: string
+                      example: "Validation error"
 
-  /harvests/{id}:
+  /harvest/{id}:
     get:
-      summary: Busca uma colheita por ID
+      summary: Get Harvest by Id
       parameters:
         - $ref: '#/components/parameters/IdParam'
       responses:
         '200':
-          description: Dados da colheita
+          description: Harvest Data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Harvest'
+                $ref: '#/components/schemas/HarvestResponse'
     patch:
       summary: Atualiza uma colheita
       parameters:
@@ -171,14 +298,38 @@ paths:
               $ref: '#/components/schemas/Harvest'
       responses:
         '200':
-          description: Colheita atualizada
+          description: Harvest Upated!
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 200
+                    message:
+                      type: string
+                      example: "Harvest Updated !!!"
     delete:
       summary: Deleta uma colheita
       parameters:
         - $ref: '#/components/parameters/IdParam'
       responses:
         '204':
-          description: Colheita deletada
+          description: Harvest Deleted !
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: number
+                      example: 200
+                    message:
+                      type: string
+                      example: "Harvest deleted"
 
 components:
   parameters:
@@ -194,39 +345,95 @@ components:
     Producer:
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
-        document:
-          type: string
-        email:
+        cpfOrCnpj:
           type: string
 
     Farm:
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
-        location:
+        city:
           type: string
-        size:
+        state:
+          type: string
+        fieldSize:
+          type: number
+        cultivableField:
+          type: number
+        vegetationField:
+          type: number
+        owner:
           type: number
 
     Harvest:
       type: object
       properties:
-        id:
-          type: string
         farmId:
           type: string
-        crop:
+        culture:
           type: string
-        quantity:
+        farm:
           type: number
-          format: float
-        date:
+
+    ProducerResponse:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        cpfOrCnpj:
+          type: string
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    FarmResponse:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        fieldSize:
+          type: number
+        cultivableField:
+          type: number
+        vegetationField:
+          type: number
+        owner:
+          type: number
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+
+    HarvestResponse:
+      type: object
+      properties:
+        id:
+          type: number
+        farmId:
+          type: string
+        culture:
+          type: string
+        farm:
+          type: number
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
           type: string
           format: date
