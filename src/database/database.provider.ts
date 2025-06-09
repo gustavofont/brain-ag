@@ -9,7 +9,7 @@ const databaseProvider = [
     useFactory: async () => {
       const sequelize = new Sequelize({
         dialect: 'postgres',
-        host: 'db',
+        host: 'db', // Replaca for 'localhost' if you run local
         port: 5432,
         username: 'postgres',
         password: 'postgres',
