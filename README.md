@@ -10,7 +10,7 @@ Uma API RESTful desenvolvida para gerenciar Produtores, Fazendas e Safras. Esta 
 
  - Script de seed para popular o banco de dados com dados iniciais
 
- - Página de documentação interativa via OpenAPI
+ - Página de documentação interativa via [OpenAPI](https://gustavofont.github.io/brain-ag/)
 
 ## 🧭 Estrutura da API
 A API segue os princípios RESTful e é organizada em torno de três entidades principais: Producer, Farm e Harvest. Cada recurso possui rotas específicas para operações de CRUD e relacionamentos bem definidos entre si.
@@ -91,7 +91,7 @@ npm i
 docker compose up --build
 ```
  - Acesse no navegador:
-[http://localhost:3000] (deve aparecer uma mensagem da api)
+[http://localhost:3000](http://localhost:3000) (deve aparecer uma mensagem da api)
 
 ## 📫 Coleção Postman
  O projeto inclui um arquivo de configuração para o Postman, contendo todas as rotas da API organizadas por categoria (Producer, Farm, Harvest).
